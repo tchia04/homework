@@ -36,9 +36,9 @@ resource "aws_launch_configuration" "as_conf" {
 resource "aws_autoscaling_group" "homework_asg" {
   name                 = "homework_asg"
   launch_configuration = "${aws_launch_configuration.as_conf.name}"
-	desired_capacity     = 1
+	desired_capacity     = 6
   min_size             = 1
-  max_size             = 1
+  max_size             = 6
 	vpc_zone_identifier  = ["subnet-e9afac9d","subnet-9632d1f3","subnet-dc3b169a"]
 #	load_balancers       = ["homework-alb"]
 #  target_group_arns    = [""]
