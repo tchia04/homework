@@ -1,0 +1,55 @@
+{
+    "variables": {
+      "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+      "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+      "region":         "us-west-2"
+    },
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "access_key": "{{user `aws_access_key`}}",
+            "ami_name": "packer-linux-homework-demo-{{timestamp}}",
+            "instance_type": "t2.medium",
+   				  "ssh_username": "ec2-user",
+            "region": "us-west-2",
+            "secret_key": "{{user `aws_secret_key`}}",
+            "source_ami_filter": {
+              "filters": {
+              "virtualization-type": "hvm",
+              "name": "amzn2-ami-hvm-2.0.*-x86_64-gp2",
+              "root-device-type": "ebs"
+              },
+              "owners": ["137112412989"],
+              "most_recent": true
+            }
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "file",
+            "source": "./flask",
+            "destination": "/tmp/"
+        },
+        {
+            "type": "file",
+            "source": "./main.py",
+            "destination": "/tmp/"
+        },
+        {
+            "type": "shell",
+            "inline":[
+                "sudo cp /tmp/flask   /etc/init.d/",
+                "sudo cp /tmp/main.py /home/ec2-user/",
+                "sudo yum install python-pip python-wheel -y",
+                "sudo yum install telnet -y",
+                "sudo yum install tree -y",
+                "sudo pip install flask",
+                "sudo chmod 755 /etc/init.d/flask",
+								"echo \"Before enable flask:\"; sudo chkconfig --list",
+								"echo \"Enable flask:\"; sudo chkconfig flask on",
+								"echo \"After enable flask:\"; sudo chkconfig --list"
+            ]
+        }
+    ]
+}
+
