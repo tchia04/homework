@@ -1,3 +1,5 @@
 .terraform
 *.swp
 *.backup
+*.out
+*.log

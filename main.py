@@ -1,5 +1,4 @@
 #!flask/bin/python
-#import boto.ec2
 from dateutil.parser import *
 import subprocess
 import datetime
@@ -35,5 +34,4 @@ def get_loader_io():
         return "loaderio-14cd55e65597953829f714fdd2ba66b1", 200
 
 if __name__ == '__main__':
-#    app.run(debug=True,host='0.0.0.0', port=8000)
     app.run(debug=True,host='0.0.0.0', port=80)
